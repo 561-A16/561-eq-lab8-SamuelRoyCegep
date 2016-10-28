@@ -1,0 +1,10 @@
+FROM microsoft/dotnet:latest 
+EXPOSE 5000
+ENV ASPNETCORE_URLS http://+:5000
+
+COPY /publish /publish
+
+CMD dotnet ./publish/webapp.dll
+
+#docker build -t webapp:release -f ./dockerfile/release .
+#docker run -it --rm -p 8080:5000 webapp:release

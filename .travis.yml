@@ -1,0 +1,16 @@
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - $HOME/cache
+
+sudo: required
+
+services:
+  - docker
+
+script:
+    - docker build -t webapp  -f ./docker/Dockerfile .
+    - docker run -it --rm -v $HOME/cache:/root/.nuget/packages -p 8080:5000 webapp
