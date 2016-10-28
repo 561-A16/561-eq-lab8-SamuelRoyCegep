@@ -12,5 +12,10 @@ services:
   - docker
 
 script:
-    - docker build -t webapp  -f ./docker/Dockerfile .
-    - docker run -it --rm -v $HOME/cache:/root/.nuget/packages -p 8080:5000 webapp
+    - docker build -t webapp:test -f ./dockerfile/test .
+    - docker run -it --rm -v $PWD/publish:/root/publish -v $PWD/packages:/root/.nuget/packages webapp:test
+    - docker build -t webapp:release -f ./dockerfile/release .
+    - docker run -it --rm -p 8080:5000 webapp:release
+    - docker tag webapp:release samuelroy07/webapp:latest
+    - docker login -u=samuelroy07 -p=samouroi
+    - docker push samuelroy07/webapp:latest
